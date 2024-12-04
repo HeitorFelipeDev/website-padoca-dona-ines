@@ -1,0 +1,4 @@
+.aside-products:has(.product:hover) .product:not(:hover) {
+  transition: .4s ease-in;
+  opacity: .4;
+}
