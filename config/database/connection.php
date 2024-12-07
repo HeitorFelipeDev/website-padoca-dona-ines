@@ -1,14 +1,19 @@
 <?php
 
-$dbhost = "localhost";
-$dbuser = "root";
-$dbpassword = "root";
-$dbname = "padocadonaines";
+    $host = 'localhost';
+    $dbname = 'padocadonaines';
+    $username = 'root';
+    $password = '';
 
-try {
-  $database = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpassword);
-  $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $err) {
+    try {
 
-  die("Erro ao conectar com o Banco de Dados: " . $err->getMessage());
-}
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    } catch (PDOException $e) {
+
+        die("Erro na conexão: " . $e->getMessage());
+
+    }
+
+?>
