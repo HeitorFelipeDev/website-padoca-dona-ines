@@ -1,7 +1,7 @@
 <?php
 
 include_once "../models/administradorModel.php";
-include_once "../services/validateAdministradorData.php";
+include_once "../services/administradorService.php";
 $inputJSON = file_get_contents('php://input');
 $requestData = json_decode($inputJSON, true);
 

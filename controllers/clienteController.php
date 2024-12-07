@@ -1,7 +1,7 @@
 <?php
 
 include_once "../models/clienteModel.php";
-include_once "../services/validateClienteData.php";
+include_once "../services/clienteService.php";
 $inputJSON = file_get_contents('php://input');
 $requestData = json_decode($inputJSON, true);
 

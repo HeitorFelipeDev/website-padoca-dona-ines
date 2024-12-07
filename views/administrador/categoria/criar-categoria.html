@@ -1,0 +1,79 @@
+<section class="section-create-category">
+  <form class="form-create-category flex flex-row-reverse gap-40 items-center">
+    <div>
+      <section
+        class="capture-image-area border-dotted border-4 rounded-md flex items-center justify-center flex-col text-color-secondary border-color-primary w-64 h-64">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"
+          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image-plus w-24 h-24">
+          <path d="M16 5h6" />
+          <path d="M19 2v6" />
+          <path d="M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5" />
+          <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+          <circle cx="9" cy="9" r="2" />
+        </svg>
+        <p class="text-sm">Arraste e solte sua imagem aqui</p>
+        <span class="font-bold text-sm">(até 5MB)</span>
+      </section>
+      <aside
+        class="message-status-upload-image bg-color-light border border-color-secondary rounded-md text-center p-2 text-color-secondary text-xs mt-4">
+        Nenhuma imagem foi selecionada</aside>
+      <!-- Botão estilizado que serve como rótulo -->
+      <label for="image"
+        class="button-upload-image flex items-center gap-2 rounded-xl border w-full border-color-secondary text-color-secondary justify-center mt-8 font-bold p-4 cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-upload">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="17 8 12 3 7 8" />
+          <line x1="12" x2="12" y1="3" y2="15" />
+        </svg>
+        Selecionar Imagem
+      </label>
+
+      <!-- Input file escondido -->
+      <input id="image" class="input-file-upload hidden" name="image" type="file" class="hidden" accept="image/*" />
+
+      <p class="text-sm text-center text-color-secondary mt-1">(.png, .jpg, .jpeg)</p>
+    </div>
+    <div class="flex flex-col gap-4 w-96">
+      <button type="button" class="button-back-page flex gap-2 text-color-primary text-xl font-bold mb-8 items-center">
+        <div class="h-10 w-10 flex items-center justify-center rounded-full bg-color-primary text-white font-bold">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left w-5 h-5">
+            <path d="m12 19-7-7 7-7" />
+            <path d="M19 12H5" />
+          </svg>
+        </div>
+        Voltar
+      </button>
+      <div class="input-block">
+        <label for="name" class="font-medium block mb-1 text-zinc-400">Nome da Categoria</label>
+        <div class="input-container flex items-center text-zinc-400 rounded-xl px-3 border border-zinc-200">
+          <input class="flex-1 focus:text-color-secondary py-3 outline-none bg-transparent" name="name"
+            type="text" id="name" placeholder="Digite o nome da categoria">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-chart-column-stacked text-current">
+            <path d="M11 13H7" />
+            <path d="M19 9h-4" />
+            <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+            <rect x="15" y="5" width="4" height="12" rx="1" />
+            <rect x="7" y="8" width="4" height="9" rx="1" />
+          </svg>
+        </div>
+      </div>
+      <div class="input-block">
+        <label for="description" class="font-medium block mb-1 text-zinc-400">Descrição da Categoria</label>
+        <div class="input-container flex items-center text-zinc-400 rounded-xl px-3 border border-zinc-200">
+          <textarea class="flex-1 py-3 outline-none bg-transparent resize-none" name="description"
+            placeholder="Ex: categoria de pães, grãos, derivados" id="description" rows="5"></textarea>
+        </div>
+      </div>
+      <div class="flex">
+        <button
+          class="button-create-category mt-4 w-max bg-color-primary rounded-xl font-bold py-4 px-10 text-white">Criar
+          categoria</button>
+      </div>
+    </div>
+  </form>
+</section>
