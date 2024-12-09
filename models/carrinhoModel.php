@@ -1,7 +1,7 @@
 <?php
 
     require_once '../config/database/connection.php';
-
+    
     function listarItensSacola($codigoCliente) {
         global $pdo;
         $stmt = $pdo->prepare("SELECT p.nome, p.imagem, i.codigo_item_sacola, i.quantidade, i.subtotal, p.descricao

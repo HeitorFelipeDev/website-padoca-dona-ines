@@ -89,7 +89,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const enderecoSelecionado = document.getElementById('enderecos');
 
         if (!enderecoSelecionado || !enderecoSelecionado.value) {
-            alert('Selecione um endereço antes de finalizar o pedido.');
+            Swal.fire({
+                title: "Atenção!",
+                text: "Selecione um endereço antes de finalizar o pedido.",
+                icon: "warning",
+                confirmButtonText: "OK",
+                confirmButtonColor: "#583C2B",
+            });
             return;
         }
 
@@ -100,10 +106,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (response.ok) {
-            alert('Pedido finalizado com sucesso!');
+            Swal.fire({
+                title: "Sucesso!",
+                text: "Pedido Finalizado com Sucesso!",
+                icon: "success",
+                confirmButtonText: "OK",
+                confirmButtonColor: "#583C2B",
+            });
             carregarCarrinho();
         } else {
-            alert('Erro ao finalizar o pedido.');
+            Swal.fire({
+                title: "Erro!",
+                text: "Ops! Erro ao finalizar o pedido.",
+                icon: "error",
+                confirmButtonText: "OK",
+                confirmButtonColor: "#583C2B",
+            });
         }
     });
 

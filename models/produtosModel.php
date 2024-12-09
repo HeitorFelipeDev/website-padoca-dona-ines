@@ -1,7 +1,7 @@
 <?php
 
     require_once '../config/database/connection.php';
-
+    
     function buscarProdutosAtivos($categoria = null) {
         global $pdo;
 

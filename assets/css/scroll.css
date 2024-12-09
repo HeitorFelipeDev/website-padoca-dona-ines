@@ -1,18 +1,18 @@
 /* Estilização minimalista para scrollbar */
-#carrinho::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 5px; /* Largura da barra */
 }
 
-#carrinho::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background-color: rgb(235, 235, 235); /* Cor da barra */
     border-radius: 10px; /* Bordas arredondadas */
 }
 
-#carrinho::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
     background-color: rgb(192, 192, 192); /* Cor ao passar o mouse */
 }
 
-#carrinho::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
     background-color: rgb(255, 255, 255); /* Cor do fundo */
     border-radius: 10px; /* Bordas arredondadas */
 }
