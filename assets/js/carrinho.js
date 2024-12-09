@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const carrinhoContainer = document.getElementById('carrinho');
+    const subtotal = document.getElementById('subtotal');
     const limparCarrinhoBtn = document.getElementById('limparCarrinho');
     const finalizarPedidoBtn = document.getElementById('finalizarPedido');
     const enderecosContainer = document.getElementById('enderecos');
@@ -12,20 +13,33 @@ document.addEventListener('DOMContentLoaded', () => {
         const total = carrinho.reduce((sum, item) => sum + parseFloat(item.subtotal), 0);
     
         carrinhoContainer.innerHTML = carrinho.map(item => `
-            <div class="p-4 border rounded flex justify-between items-center">
-                <span>${item.nome}</span>
-                <div class="flex items-center">
-                    <button class="bg-gray-300 px-2 py-1 rounded" onclick="alterarQuantidade(${item.codigo_item_sacola}, -1)">-</button>
-                    <span class="mx-2">${item.quantidade}</span>
-                    <button class="bg-gray-300 px-2 py-1 rounded" onclick="alterarQuantidade(${item.codigo_item_sacola}, 1)">+</button>
+            <div class="p-4 border border-gray-200 rounded-lg flex items-center gap-4 bg-white">
+
+                <img src="../../assets/images/${item.imagem}" alt="${item.imagem}" class="h-16 w-16 object-cover rounded">
+
+                <div class="flex-1">
+                    <h3 class="font-bold text-xl text-color-primary">${item.nome}</h3>
+                    <p class="text-sm font-light text-gray-400">${item.descricao || ''}</p>
                 </div>
-                <span>R$ ${item.subtotal}</span>
-                <button class="bg-red-500 text-white px-2 py-1 rounded" onclick="removerItem(${item.codigo_item_sacola})">Remover</button>
+
+                <div class="h-10 flex items-center gap-3 border rounded-xl">
+                    <button class="text-gray-700 px-3 py-1 rounded transition duration-300" onclick="alterarQuantidade(${item.codigo_item_sacola}, -1)">-</button>
+                    <span class="font-bold text-sm">${item.quantidade}</span>
+                    <button class="text-gray-700 px-3 py-1 rounded transition duration-300" onclick="alterarQuantidade(${item.codigo_item_sacola}, 1)">+</button>
+                </div>
+                
+                <button class="h-10 border border-primary pt-2 text-primary hover:bg-red-600 hover:text-white px-3 py-1 rounded-xl transition duration-300" onclick="removerItem(${item.codigo_item_sacola})">
+                    <i class='bx bx-trash'></i>
+                </button>
+
+                <span class="text-xl font-medium ml-6 text-color-primary">R$ <strong>${item.subtotal}</strong></span>
+
             </div>
         `).join('');
-        carrinhoContainer.insertAdjacentHTML('beforeend', `
-            <div class="p-4 border-t text-right text-lg font-bold">Total: R$ ${total.toFixed(2)}</div>
-        `);
+        subtotal.innerHTML = `
+            <span class="font-regular">Subtotal:</span>
+            <span class="font-bold">R$ ${total.toFixed(2)}</span>
+        `;
     };
 
     const carregarEnderecos = async () => {
