@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoriasContainer = document.querySelector('article');
 
     const carregarCategorias = async () => {
-        const response = await fetch('../../controllers/produtoController.php?action=listarCategorias');
+        const response = await fetch('../../controllers/produtosController.php?action=listarCategorias');
         const categorias = await response.json();
     
         categoriasContainer.innerHTML = categorias.map(categoria => `
@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.carregarProdutos = async (idCategoria = null) => {
         const endpoint = idCategoria 
-            ? `../../controllers/produtoController.php?action=listar&categoria=${idCategoria}`
-            : '../../controllers/produtoController.php?action=listar';
+            ? `../../controllers/produtosController.php?action=listar&categoria=${idCategoria}`
+            : '../../controllers/produtosController.php?action=listar';
 
         const response = await fetch(endpoint);
         const produtos = await response.json();
