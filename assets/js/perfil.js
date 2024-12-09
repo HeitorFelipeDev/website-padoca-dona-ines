@@ -251,16 +251,6 @@ function confirmarAdicionarEndereco() {
             return res.json();
         })
         .then(data => {
-            if (!data.success) {
-                Swal.fire({
-                    title: "Erro!",
-                    text: (data.message || "Erro ao adicionar endereço."),
-                    icon: "error",
-                    confirmButtonText: "OK",
-                    confirmButtonColor: "#583C2B",
-                });
-                return;
-            }
             Swal.fire({
                 title: "Sucesso!",
                 text: "Endereço adicionado com sucesso!",
