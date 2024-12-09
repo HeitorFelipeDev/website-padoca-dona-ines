@@ -1,93 +1,65 @@
-<?php
-
-session_start();
-require_once '../../config/database/connection.php';
-
-if (!isset($_SESSION['user_role'])) {
-    $_SESSION['user_role'] = 'cliente';
-}
-$isAdmin = $_SESSION['user_role'] === 'admin';
-
-if (!$pdo) {
-    die("Conexão com o banco de dados não foi estabelecida.");
-}
-
-if (!isset($_SESSION['codigo_sacola'])) {
-    $stmt = $pdo->prepare("INSERT INTO sacola (data_criacao) VALUES (NOW())");
-    $stmt->execute();
-    $_SESSION['codigo_sacola'] = $pdo->lastInsertId();
-}
-
-function getCategories(PDO $pdo) {
-    $stmt = $pdo->prepare("SELECT * FROM categoria_produto");
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-function getProducts($category = null) {
-    global $pdo;
-    $sql = "SELECT p.codigo_produto, p.nome, p.descricao, p.preco, p.imagem, c.nome AS categoria
-            FROM produto p
-            JOIN categoria_produto c ON p.codigo_categoria = c.codigo_categoria
-            WHERE p.ativo = 1";
-    if ($category) {
-        $sql .= " AND p.codigo_categoria = :category";
-    }
-
-    $stmt = $pdo->prepare($sql);
-    if ($category) {
-        $stmt->bindParam(':category', $category, PDO::PARAM_INT);
-    }
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-$categories = getCategories($pdo);
-$products = getProducts();
-?>
+<?php session_start(); ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br" class="h-full">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos</title>
+    <title>PDI - Produtos</title>
+    <script src="../../assets/js/produtos.js" defer></script>
+    
+    <!-- script-tailwind-css -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../tailwind.config.js"></script>
+
+    <!-- link-bx-icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+    <!-- link-css -->
+    <link rel="stylesheet" href="../../assets/styles/global.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
 </head>
-<body class="bg-gray-50 text-gray-800">
 
-<header class="bg-blue-600 text-white">
-    <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-        <button onclick="history.back()" class="text-lg font-semibold hover:underline">Voltar</button>
-        <div class="flex items-center space-x-4">
-            <button id="cart-icon" onclick="toggleCart()" class="relative group">
-                <svg class="w-6 h-6 group-hover:text-gray-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l3.6-8H6.4M7 13l-2 9h10l2-9m-2-4H6M7 13l-4-8m16 0h-2.4M6.4 5L5 3m14 8h.01" />
-                </svg>
-                <span id="cart-count" class="absolute -top-2 -right-2 text-xs bg-red-500 text-white rounded-full px-1">0</span>
-            </button>
-        </div>
+<body class="font-sans overflow-x-hidden scroll-smooth transition-all">
+
+  <header class="header border border-color-secondary">
+    <div class="header-container flex items-center justify-between px-14">
+
+      <section class="section-logo-header-container">
+        <img src="../../assets/images/logo.svg" alt="Logo Padoca Dona Inês" class="h-[5rem]">
+      </section>
+
+      <seaction class="section-assets-header-container flex gap-4">
+        <button class="button-bag bg-color-light rounded-full w-12 h-12 flex items-center justify-center relative">
+          <span class="bag-items-text absolute top-0 right-0 bg-color-primary text-white rounded-full w-6 h-6 flex justify-center items-center" id="contagemItens"></span>
+            <a href="../carrinho/listar.php"><i class='bx bx-shopping-bag text-color-secondary text-xl'></i></a>
+        </button>
+        <button class="button-login bg-color-light rounded-full w-12 h-12 flex items-center justify-center">
+          <a href="perfil.html"><i class='bx bx-user text-color-secondary text-xl'></i></a>
+        </button>
+        <button class="button-login border rounded-full w-12 h-12 flex items-center justify-center transition-all border-color-secondary text-color-secondary hover:border-red-600 hover:text-red-600">
+            <a href="logout.html"><i class='bx bx-log-out text-xl rotate-180 pr-1 pb-0.5'></i></a>
+        </button>
+      </seaction>
+
     </div>
-</header>
+  </header>
 
-<main class="max-w-7xl mx-auto p-6">
-    <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <?php foreach ($products as $product): ?>
-            <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
-                <img src="../../assets/images/<?= $product['imagem'] ?>" alt="<?= $product['nome'] ?>" class="w-full h-40 object-cover rounded-lg mb-4">
-                <h2 class="text-lg font-bold"><?= $product['nome'] ?></h2>
-                <p class="text-sm text-gray-600"><?= $product['descricao'] ?></p>
-                <div class="flex justify-between items-center mt-4">
-                    <span class="text-blue-600 font-bold">R$ <?= number_format($product['preco'], 2, ',', '.') ?></span>
-                    <button onclick="addToCart(<?= $product['codigo_produto'] ?>, <?= $product['preco'] ?>)" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Adicionar</button>
-                </div>
-            </div>
-        <?php endforeach; ?>
+  <main class="h-full bg-red-100 bg-[url('../../assets/images/logo-background.png')] bg-no-repeat bg-contain">
+
+    <div class="container px-14 p-6">
+
+          <h1 class="text-2xl font-bold mb-6 mt-2 text-color-primary">Produtos Disponíveis</h1>
+
+          <div id="produtos" class="grid grid-cols-5 gap-6"><!-- Produtos serão carregados aqui --></div>
+
     </div>
-</main>
 
-<script>
-    const sacolaCodigo = <?= json_encode($_SESSION['codigo_sacola']) ?>;
-</script>
-<script src="../../assets/js/produto.js"></script>
+  </main>
+  
 </body>
+
 </html>

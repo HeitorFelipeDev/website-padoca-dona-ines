@@ -2,6 +2,8 @@
 
 require "../config/database/connection.php";
 
+session_start();
+
 function create($name, $email, $password, $cpf) {
   try {
     $password = password_hash($password, PASSWORD_BCRYPT);
@@ -89,6 +91,9 @@ function login($email, $password) {
 
     if ($user) {
       if (password_verify($password, $user['senha'])) {
+        
+        $_SESSION["codigo_cliente"] = $user['codigo_cliente']; // para salvar o id do cliente em Session, mantenha
+
         return [
           'status' => 'success',
           'message' => 'Login realizado com sucesso!',
@@ -98,6 +103,7 @@ function login($email, $password) {
             'email' => $user['email']
           ]
         ];
+
       } else {
         return [
           'status' => 'error',
